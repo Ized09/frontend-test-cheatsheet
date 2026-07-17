@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Frontend Test Cheat Sheet + Quiz • v3.1</title>
+    <title>Frontend Test Cheat Sheet + Quiz • v3.2</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
@@ -21,7 +21,7 @@
                 <div class="w-12 h-12 bg-gradient-to-br from-cyan-400 to-teal-500 rounded-2xl flex items-center justify-center text-3xl">💻</div>
                 <div>
                     <h1 class="text-3xl font-semibold tracking-tight">Frontend Test Cheat Sheet</h1>
-                    <p class="text-zinc-400 text-sm">v3.1 • Original Rich Content + Quiz</p>
+                    <p class="text-zinc-400 text-sm">v3.2 • Full Content + Real-Test Quiz</p>
                 </div>
             </div>
             <button onclick="window.print()" class="flex items-center gap-2 px-6 py-3 bg-white text-zinc-900 rounded-3xl font-medium hover:bg-cyan-400">
@@ -38,72 +38,163 @@
             <button onclick="showSection('quiz')" id="tab-quiz" class="tab-button px-8 py-4 rounded-3xl text-lg">🧠 Quiz Mode</button>
         </div>
 
-        <!-- CHEAT SHEET - RESTORED ORIGINAL v1 CONTENT -->
+        <!-- CHEAT SHEET -->
         <div id="cheatsheet">
             <h2 class="text-4xl font-bold mb-10">Frontend Developer Test Cheat Sheet</h2>
-
             <div class="space-y-16">
 
                 <div>
                     <h3 class="text-2xl font-semibold mb-4">1. Form Validation</h3>
                     <pre class="code-block bg-zinc-900 border border-zinc-800 p-6 rounded-3xl overflow-auto"><code>function validateForm(name, quantity) {
-  const nameError = name.trim() === "" ? "Product name is required" : "";
-  const quantityError = quantity.trim() === "" ? "Quantity is required" : "";
-  return { nameError, quantityError, isValid: nameError === "" && quantityError === "" };
+  const nameStr = String(name).trim();
+  const qtyStr = String(quantity).trim();
+  const nameError = nameStr === "" ? "Product name is required" : "";
+  const quantityError = qtyStr === "" ? "Quantity is required" : "";
+  return { nameError, quantityError, isValid: !nameError && !quantityError };
 }</code></pre>
                 </div>
 
                 <div>
-                    <h3 class="text-2xl font-semibold mb-4">2. Debounce / Throttle</h3>
-                    <pre class="code-block bg-zinc-900 border border-zinc-800 p-6 rounded-3xl overflow-auto"><code>function debounce(fn, delay) {
-  let timer;
-  return (...args) => { clearTimeout(timer); timer = setTimeout(() => fn(...args), delay); };
-}</code></pre>
-                </div>
-
-                <div>
-                    <h3 class="text-2xl font-semibold mb-4">3. Array Manipulation</h3>
-                    <pre class="code-block bg-zinc-900 border border-zinc-800 p-6 rounded-3xl overflow-auto"><code>arr.filter(x => x.active)
-arr.map(x => x.name)
-[...arr].sort((a, b) => a.value - b.value)
-const filtered = items.filter(item => item.name.toLowerCase().includes(query.toLowerCase()));</code></pre>
-                </div>
-
-                <div>
-                    <h3 class="text-2xl font-semibold mb-4">4. React Hooks</h3>
-                    <pre class="code-block bg-zinc-900 border border-zinc-800 p-6 rounded-3xl overflow-auto"><code>const [value, setValue] = useState(initial);
-useEffect(() => { return () => {}; }, [dependency]);
-const total = useMemo(() => compute(items), [items]);
-const handleClick = useCallback(() => doSomething(id), [id]);</code></pre>
-                </div>
-
-                <div>
-                    <h3 class="text-2xl font-semibold mb-4">5. useOutsideClick</h3>
-                    <pre class="code-block bg-zinc-900 border border-zinc-800 p-6 rounded-3xl overflow-auto"><code>function useOutsideClick(ref, onOutsideClick) {
+                    <h3 class="text-2xl font-semibold mb-4">2. Debounce Hook</h3>
+                    <pre class="code-block bg-zinc-900 border border-zinc-800 p-6 rounded-3xl overflow-auto"><code>function useDebounce(value, delay) {
+  const [debounced, setDebounced] = useState(value);
   useEffect(() => {
-    const handle = (e) => {
-      if (ref.current && !ref.current.contains(e.target)) onOutsideClick();
-    };
-    document.addEventListener("click", handle);
-    return () => document.removeEventListener("click", handle);
-  }, [ref, onOutsideClick]);
+    const timer = setTimeout(() => setDebounced(value), delay);
+    return () => clearTimeout(timer);
+  }, [value, delay]);
+  return debounced;
 }</code></pre>
                 </div>
 
                 <div>
-                    <h3 class="text-2xl font-semibold mb-4">6. Async Pattern</h3>
+                    <h3 class="text-2xl font-semibold mb-4">3. useOutsideClick</h3>
+                    <pre class="code-block bg-zinc-900 border border-zinc-800 p-6 rounded-3xl overflow-auto"><code>function useOutsideClick(ref, callback) {
+  useEffect(() => {
+    const handler = (e) => {
+      if (ref.current && !ref.current.contains(e.target)) callback();
+    };
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
+  }, [ref, callback]);
+}</code></pre>
+                </div>
+
+                <div>
+                    <h3 class="text-2xl font-semibold mb-4">4. Async with AbortController</h3>
                     <pre class="code-block bg-zinc-900 border border-zinc-800 p-6 rounded-3xl overflow-auto"><code>useEffect(() => {
   const controller = new AbortController();
-  fetchUser(id, controller.signal);
+  fetch(url, { signal: controller.signal });
   return () => controller.abort();
 }, [id]);</code></pre>
+                </div>
+
+                <div>
+                    <h3 class="text-2xl font-semibold mb-4">5. Array Manipulation</h3>
+                    <pre class="code-block bg-zinc-900 border border-zinc-800 p-6 rounded-3xl overflow-auto"><code>const filtered = items.filter(item => 
+  item.name.toLowerCase().includes(query.toLowerCase())
+);
+[...arr].sort((a, b) => a.value - b.value);</code></pre>
                 </div>
 
             </div>
         </div>
 
-        <!-- QUIZ MODE (15 questions) -->
+        <!-- QUIZ MODE -->
         <div id="quiz" class="hidden max-w-3xl mx-auto">
-            <h2 class="text-4xl font-bold mb-8">Quiz Mode</h2>
+            <div class="flex justify-between items-center mb-8">
+                <h2 class="text-4xl font-bold">Quiz Mode</h2>
+                <div>Time: <span id="timer" class="font-mono text-cyan-400">30</span>s</div>
+            </div>
             <div id="quiz-content" class="bg-zinc-900 border border-zinc-700 rounded-3xl p-10 min-h-[420px]"></div>
             <button onclick="startQuiz()" class="mt-8 w-full py-4 bg-white text-zinc-900 rounded-3xl font-semibold hover:bg-cyan-400">Restart Quiz</button>
+        </div>
+    </div>
+
+    <script>
+        function showSection(section) {
+            document.getElementById('cheatsheet').classList.add('hidden');
+            document.getElementById('quiz').classList.add('hidden');
+            document.getElementById(section).classList.remove('hidden');
+
+            document.querySelectorAll('.tab-button').forEach(tab => {
+                tab.classList.remove('active-tab');
+                if (tab.id === `tab-${section}`) tab.classList.add('active-tab');
+            });
+        }
+
+        const questions = [
+            { q: "Safe way to trim form inputs?", a: ["String(value).trim()", "value.trim()", "Both with String()"], c: 0 },
+            { q: "How to validate email on blur + submit?", a: ["regex + onBlur", "onSubmit only", "Both"], c: 0 },
+            { q: "Best way to prevent double form submission?", a: ["disabled button + loading", "setTimeout", "Both"], c: 0 },
+            { q: "How to show success state after async submit?", a: ["Replace form with success message", "Keep form", "Modal"], c: 0 },
+            { q: "Which ARIA for form errors?", a: ["aria-invalid + aria-describedby", "role=alert only", "Both"], c: 0 },
+            { q: "Correct heading hierarchy?", a: ["h1 > h2", "h2 > h1", "Doesn't matter"], c: 0 },
+            { q: "Image accessibility best practice?", a: ["Meaningful alt text", "alt=''", "No alt"], c: 0 },
+            { q: "Replace default focus outline?", a: ["box-shadow or border", "outline: none only", "Both ok"], c: 0 },
+            { q: "Handle loading state in form?", a: ["isLoading + disabled", "Spinner only", "Both"], c: 0 },
+            { q: "Why use data-testid?", a: ["For automated tests", "Styling", "Performance"], c: 0 },
+            { q: "Prevent stale closure in async?", a: ["Functional updates", "useState only", "No need"], c: 0 },
+            { q: "Semantic HTML for main content?", a: ["<main>", "<section>", "<div role='main'>"], c: 0 },
+            { q: "Non-mutating sort?", a: ["[...arr].sort()", "arr.sort()", "arr.toSorted()"], c: 0 },
+            { q: "Debounce vs Throttle for search?", a: ["Debounce", "Throttle", "Either"], c: 0 },
+            { q: "Stable callback for children?", a: ["useCallback", "useMemo", "useEffect"], c: 0 }
+        ];
+
+        let currentQ = 0, score = 0, timerInterval;
+
+        function startQuiz() {
+            currentQ = 0; score = 0;
+            clearInterval(timerInterval);
+            renderQuestion();
+        }
+
+        function startTimer() {
+            let time = 30;
+            document.getElementById('timer').textContent = time;
+            timerInterval = setInterval(() => {
+                time--;
+                document.getElementById('timer').textContent = time;
+                if (time <= 0) {
+                    clearInterval(timerInterval);
+                    currentQ++;
+                    if (currentQ < questions.length) renderQuestion();
+                    else finishQuiz();
+                }
+            }, 1000);
+        }
+
+        function renderQuestion() {
+            clearInterval(timerInterval);
+            const q = questions[currentQ];
+            document.getElementById('quiz-content').innerHTML = `
+                <div>
+                    <div class="text-cyan-400 mb-2">Question ${currentQ + 1} / ${questions.length}</div>
+                    <h3 class="text-2xl font-semibold mb-8">${q.q}</h3>
+                    <div class="space-y-4">
+                        ${q.a.map((ans,i) => `<button onclick="selectAnswer(${i})" class="block w-full text-left p-5 bg-zinc-800 hover:bg-zinc-700 rounded-2xl">${ans}</button>`).join('')}
+                    </div>
+                </div>`;
+            startTimer();
+        }
+
+        window.selectAnswer = function(i) {
+            if (i === questions[currentQ].c) score++;
+            clearInterval(timerInterval);
+            currentQ++;
+            if (currentQ < questions.length) renderQuestion();
+            else finishQuiz();
+        };
+
+        function finishQuiz() {
+            document.getElementById('quiz-content').innerHTML = `
+                <div class="text-center py-20">
+                    <h2 class="text-5xl font-bold mb-4">Quiz Complete!</h2>
+                    <p class="text-6xl font-mono text-cyan-400 mb-4">${score} / ${questions.length}</p>
+                    <p class="text-xl">Great job! Review weak areas.</p>
+                </div>`;
+        }
+
+        window.onload = () => showSection('cheatsheet');
+    </script>
+</body>
+</html>
