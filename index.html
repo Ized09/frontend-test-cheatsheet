@@ -21,7 +21,7 @@
                 <div class="w-12 h-12 bg-gradient-to-br from-cyan-400 to-teal-500 rounded-2xl flex items-center justify-center text-3xl">💻</div>
                 <div>
                     <h1 class="text-3xl font-semibold tracking-tight">Frontend Test Cheat Sheet</h1>
-                    <p class="text-zinc-400 text-sm">vFinal • Ready for Minddrift / HackerRank</p>
+                    <p class="text-zinc-400 text-sm">Full + Quiz • Ready for Minddrift</p>
                 </div>
             </div>
             <button onclick="window.print()" class="flex items-center gap-2 px-6 py-3 bg-white text-zinc-900 rounded-3xl font-medium hover:bg-cyan-400">
@@ -41,14 +41,10 @@
         <!-- CHEAT SHEET -->
         <div id="cheatsheet">
             <h2 class="text-4xl font-bold mb-10">Cheat Sheet</h2>
-
             <div class="space-y-16">
-                <!-- 1. Form Validation -->
+
                 <div>
-                    <div class="flex items-center gap-3 mb-4">
-                        <input type="checkbox" id="master-1" onchange="updateMastery()" class="w-5 h-5 accent-cyan-400">
-                        <h3 class="text-2xl font-semibold">1. Form Validation</h3>
-                    </div>
+                    <h3 class="text-2xl font-semibold mb-4">1. Form Validation</h3>
                     <pre class="code-block bg-zinc-900 border border-zinc-800 p-6 rounded-3xl overflow-auto"><code>function validateForm(name, quantity) {
   const nameStr = String(name).trim();
   const qtyStr = String(quantity).trim();
@@ -56,15 +52,10 @@
   const quantityError = qtyStr === "" ? "Quantity is required" : "";
   return { nameError, quantityError, isValid: !nameError && !quantityError };
 }</code></pre>
-                    <button onclick="copyCode(this)" class="mt-3 text-sm px-5 py-2 bg-zinc-800 hover:bg-zinc-700 rounded-2xl">📋 Copy</button>
                 </div>
 
-                <!-- 2. Debounce -->
                 <div>
-                    <div class="flex items-center gap-3 mb-4">
-                        <input type="checkbox" id="master-2" onchange="updateMastery()" class="w-5 h-5 accent-cyan-400">
-                        <h3 class="text-2xl font-semibold">2. Debounce Hook</h3>
-                    </div>
+                    <h3 class="text-2xl font-semibold mb-4">2. Debounce Hook</h3>
                     <pre class="code-block bg-zinc-900 border border-zinc-800 p-6 rounded-3xl overflow-auto"><code>function useDebounce(value, delay) {
   const [debounced, setDebounced] = useState(value);
   useEffect(() => {
@@ -73,30 +64,37 @@
   }, [value, delay]);
   return debounced;
 }</code></pre>
-                    <button onclick="copyCode(this)" class="mt-3 text-sm px-5 py-2 bg-zinc-800 hover:bg-zinc-700 rounded-2xl">📋 Copy</button>
                 </div>
 
-                <!-- Add more sections as needed - you can expand this -->
+                <div>
+                    <h3 class="text-2xl font-semibold mb-4">3. useOutsideClick</h3>
+                    <pre class="code-block bg-zinc-900 border border-zinc-800 p-6 rounded-3xl overflow-auto"><code>function useOutsideClick(ref, callback) {
+  useEffect(() => {
+    const handler = (e) => {
+      if (ref.current && !ref.current.contains(e.target)) callback();
+    };
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
+  }, [ref, callback]);
+}</code></pre>
+                </div>
+
+                <!-- You can keep adding more sections here -->
+
             </div>
         </div>
 
-        <!-- QUIZ MODE -->
+        <!-- QUIZ -->
         <div id="quiz" class="hidden">
             <div class="max-w-3xl mx-auto">
-                <div class="flex justify-between mb-8">
-                    <h2 class="text-4xl font-bold">Quiz Mode</h2>
-                    <div>High Score: <span id="high-score" class="font-mono text-cyan-400">0</span></div>
-                </div>
-
-                <div id="quiz-content" class="bg-zinc-900 border border-zinc-700 rounded-3xl p-10 min-h-[400px]"></div>
-
+                <h2 class="text-4xl font-bold mb-8">Quiz Mode</h2>
+                <div id="quiz-content" class="bg-zinc-900 border border-zinc-700 rounded-3xl p-10 min-h-[420px]"></div>
                 <button onclick="startQuiz()" class="mt-8 w-full py-4 bg-white text-zinc-900 rounded-3xl font-semibold hover:bg-cyan-400">Restart Quiz</button>
             </div>
         </div>
     </div>
 
     <script>
-        // Tab switching
         function showSection(section) {
             document.getElementById('cheatsheet').classList.add('hidden');
             document.getElementById('quiz').classList.add('hidden');
@@ -108,28 +106,13 @@
             });
         }
 
-        // Copy code
-        function copyCode(btn) {
-            const code = btn.previousElementSibling.innerText;
-            navigator.clipboard.writeText(code).then(() => {
-                const orig = btn.innerHTML;
-                btn.innerHTML = '✅ Copied!';
-                setTimeout(() => btn.innerHTML = orig, 1500);
-            });
-        }
-
-        // Mastery
-        function updateMastery() {
-            const checked = Array.from(document.querySelectorAll('input[type="checkbox"]')).filter(c => c.checked).length;
-            localStorage.setItem('mastery', JSON.stringify(Array.from(document.querySelectorAll('input[type="checkbox"]')).map(c => c.checked)));
-        }
-
-        // Quiz (15 questions)
         const questions = [
-            {q: "Safe way to trim input?", a: ["String().trim()", "value.trim()", "Both safe"], c: 0},
+            {q: "Safe way to trim form inputs?", a: ["String(value).trim()", "value.trim()", "Both safe with String()"], c: 0},
             {q: "Cancel fetch on unmount?", a: ["AbortController", "useEffect cleanup", "Both"], c: 2},
             {q: "Non-mutating sort?", a: ["[...arr].sort()", "arr.sort()", "arr.toSorted()"], c: 0},
-            // ... (15 total - abbreviated for message length, but full in real file)
+            {q: "Best event for outside click?", a: ["click", "mousedown", "Both work"], c: 1},
+            {q: "Stable callback hook?", a: ["useMemo", "useCallback", "useEffect"], c: 1},
+            // Add more as needed - this is expandable
         ];
 
         let currentQ = 0, score = 0;
@@ -143,9 +126,9 @@
             const q = questions[currentQ];
             document.getElementById('quiz-content').innerHTML = `
                 <div>
-                    <div class="text-cyan-400">Q${currentQ+1}/15</div>
-                    <h3 class="text-2xl my-6">${q.q}</h3>
-                    <div class="space-y-3">
+                    <div class="text-cyan-400 mb-2">Question ${currentQ + 1} / ${questions.length}</div>
+                    <h3 class="text-2xl font-semibold mb-8">${q.q}</h3>
+                    <div class="space-y-4">
                         ${q.a.map((ans,i) => `<button onclick="selectAnswer(${i})" class="block w-full text-left p-5 bg-zinc-800 hover:bg-zinc-700 rounded-2xl">${ans}</button>`).join('')}
                     </div>
                 </div>`;
@@ -155,18 +138,10 @@
             if (i === questions[currentQ].c) score++;
             currentQ++;
             if (currentQ < questions.length) renderQuestion();
-            else {
-                const hs = Math.max(score, parseInt(localStorage.getItem('hs')||0));
-                localStorage.setItem('hs', hs);
-                document.getElementById('high-score').innerText = hs;
-                document.getElementById('quiz-content').innerHTML = `<div class="text-center py-20"><h2 class="text-5xl">Done!</h2><p class="text-6xl my-6 text-cyan-400">${score}/15</p></div>`;
-            }
+            else document.getElementById('quiz-content').innerHTML = `<div class="text-center py-20"><h2 class="text-5xl">Done!</h2><p class="text-6xl my-6 text-cyan-400">${score}/${questions.length}</p></div>`;
         };
 
-        window.onload = () => {
-            showSection('cheatsheet');
-            document.getElementById('high-score').innerText = localStorage.getItem('hs') || 0;
-        };
+        window.onload = () => showSection('cheatsheet');
     </script>
 </body>
 </html>
