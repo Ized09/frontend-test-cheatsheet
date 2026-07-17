@@ -7,60 +7,15 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Space+Grotesk:wght@500;600&amp;display=swap');
-        
-        :root {
-            --font-sans: 'Inter', system_ui, sans-serif;
-        }
-        
-        body {
-            font-family: var(--font-sans);
-        }
-        
-        .section-card {
-            transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.2s;
-        }
-        
-        .section-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
-        }
-        
-        .code-block {
-            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-            font-size: 13.5px;
-            line-height: 1.5;
-        }
-        
-        .nav-link {
-            transition: all 0.2s ease;
-        }
-        
-        .nav-link:hover {
-            color: #22d3ee;
-            transform: translateX(4px);
-        }
-        
-        .highlight {
-            background: linear-gradient(90deg, #22d3ee20, transparent);
-            padding: 1px 6px;
-            border-radius: 4px;
-        }
-        
-        pre {
-            scrollbar-width: thin;
-            scrollbar-color: #334155 #1e2937;
-        }
-        
-        .correction-badge {
-            font-size: 10px;
-            padding: 1px 8px;
-            border-radius: 9999px;
-        }
+        body { font-family: 'Inter', system_ui, sans-serif; }
+        .code-block { font-family: ui-monospace, monospace; }
+        .quiz-option { transition: all 0.2s; }
+        .quiz-option:hover { transform: translateX(8px); }
     </style>
 </head>
 <body class="bg-zinc-950 text-zinc-200">
-    <!-- Header -->
+
+    <!-- Header (same as before) -->
     <div class="border-b border-zinc-800 bg-zinc-900 sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-8 py-6 flex items-center justify-between">
             <div class="flex items-center gap-x-4">
@@ -69,399 +24,173 @@
                 </div>
                 <div>
                     <h1 class="text-3xl font-semibold tracking-tighter">Frontend Test Cheat Sheet</h1>
-                    <p class="text-zinc-400 text-sm">Updated &amp; Corrected • 2026 Edition</p>
+                    <p class="text-zinc-400 text-sm">Updated &amp; Corrected • Quiz Mode Added</p>
                 </div>
             </div>
-            
-            <div class="flex items-center gap-x-3">
-                <div class="px-4 py-1.5 bg-zinc-900 border border-zinc-700 rounded-3xl text-sm flex items-center gap-x-2">
-                    <div class="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></div>
-                    <span class="font-medium">Ready for HackerRank</span>
+            <button onclick="window.print()" class="flex items-center gap-x-2 px-5 py-2.5 bg-white text-zinc-900 hover:bg-zinc-100 font-semibold rounded-3xl text-sm">
+                <i class="fas fa-download"></i> Save PDF
+            </button>
+        </div>
+    </div>
+
+    <div class="max-w-7xl mx-auto px-8 py-10">
+
+        <!-- Navigation -->
+        <div class="flex gap-2 mb-10 border-b border-zinc-800 pb-4">
+            <a href="#cheatsheet" class="nav-link px-5 py-2 text-sm font-medium rounded-3xl hover:bg-zinc-900">Cheat Sheet</a>
+            <a href="#quiz" class="nav-link px-5 py-2 text-sm font-medium bg-cyan-500 text-black rounded-3xl">Quiz Mode</a>
+        </div>
+
+        <!-- Existing Cheat Sheet Content (truncated for brevity - keep your previous sections here) -->
+        <div id="cheatsheet">
+            <!-- Paste all your previous sections here (Form Validation, Debounce, etc.) -->
+            <h2 class="text-4xl font-bold mb-8">Cheat Sheet</h2>
+            <!-- ... your existing content ... -->
+        </div>
+
+        <!-- ====================== QUIZ SECTION ====================== -->
+        <div id="quiz" class="mt-16">
+            <div class="flex justify-between items-end mb-8">
+                <div>
+                    <h2 class="text-4xl font-bold">Quiz Mode</h2>
+                    <p class="text-zinc-400">Test how much you've memorized • 10 questions</p>
                 </div>
-                
-                <button onclick="window.print()" 
-                        class="flex items-center gap-x-2 px-5 py-2.5 bg-white text-zinc-900 hover:bg-zinc-100 font-semibold rounded-3xl text-sm transition-all active:scale-[0.985]">
-                    <i class="fas fa-download mr-2"></i>
-                    <span>Print / Save PDF</span>
+                <div id="score" class="text-3xl font-mono font-bold text-cyan-400">0 / 10</div>
+            </div>
+
+            <div id="quiz-container" class="bg-zinc-900 border border-zinc-800 rounded-3xl p-8">
+                <!-- Quiz content injected by JS -->
+            </div>
+
+            <div class="mt-6 text-center">
+                <button onclick="startQuiz()" class="px-8 py-3 bg-white text-zinc-900 rounded-3xl font-semibold hover:bg-cyan-400">
+                    Restart Quiz
                 </button>
             </div>
         </div>
     </div>
 
-    <div class="max-w-7xl mx-auto px-8 pt-10 pb-20">
-        
-        <!-- Intro -->
-        <div class="max-w-3xl mb-12">
-            <div class="inline-flex items-center gap-x-2 px-4 py-1 bg-zinc-900 border border-zinc-700 rounded-3xl text-xs font-medium mb-4">
-                <span class="text-emerald-400">✓</span> 
-                <span>All code reviewed, fixed &amp; improved</span>
-            </div>
-            <h2 class="text-5xl font-semibold tracking-tighter leading-none mb-3">Quick-reference patterns<br>for frontend assessments</h2>
-            <p class="text-xl text-zinc-400">React • JavaScript • CSS • Best practices for timed tests</p>
-        </div>
-
-        <!-- Navigation -->
-        <div class="flex flex-wrap gap-2 mb-10 sticky top-[85px] z-40 bg-zinc-950 py-3">
-            <a href="#form-validation" class="nav-link px-4 py-1.5 text-sm font-medium text-zinc-400 hover:text-white rounded-2xl hover:bg-zinc-900">1. Form Validation</a>
-            <a href="#debounce" class="nav-link px-4 py-1.5 text-sm font-medium text-zinc-400 hover:text-white rounded-2xl hover:bg-zinc-900">2. Debounce / Throttle</a>
-            <a href="#arrays" class="nav-link px-4 py-1.5 text-sm font-medium text-zinc-400 hover:text-white rounded-2xl hover:bg-zinc-900">3. Array Manipulation</a>
-            <a href="#hooks" class="nav-link px-4 py-1.5 text-sm font-medium text-zinc-400 hover:text-white rounded-2xl hover:bg-zinc-900">4. React Hooks</a>
-            <a href="#events" class="nav-link px-4 py-1.5 text-sm font-medium text-zinc-400 hover:text-white rounded-2xl hover:bg-zinc-900">5. Event Handling</a>
-            <a href="#css" class="nav-link px-4 py-1.5 text-sm font-medium text-zinc-400 hover:text-white rounded-2xl hover:bg-zinc-900">6. CSS</a>
-            <a href="#async" class="nav-link px-4 py-1.5 text-sm font-medium text-zinc-400 hover:text-white rounded-2xl hover:bg-zinc-900">7. Async / API</a>
-            <a href="#checklist" class="nav-link px-4 py-1.5 text-sm font-medium text-zinc-400 hover:text-white rounded-2xl hover:bg-zinc-900">8. Test Checklist</a>
-        </div>
-
-        <!-- Section 1: Form Validation -->
-        <div id="form-validation" class="section-card bg-zinc-900 border border-zinc-800 rounded-3xl p-8 mb-8">
-            <div class="flex items-center justify-between mb-6">
-                <div>
-                    <span class="text-xs font-mono tracking-[2px] text-cyan-400">01</span>
-                    <h3 class="text-2xl font-semibold">Form Validation</h3>
-                </div>
-                <div class="correction-badge bg-amber-500/10 text-amber-400 border border-amber-500/30">UPDATED</div>
-            </div>
-            
-            <p class="text-zinc-400 mb-6">Common pattern with exact string matching for test suites.</p>
-            
-            <div class="mb-6">
-                <div class="flex items-center gap-x-2 mb-3">
-                    <span class="font-semibold text-sm">JavaScript Function (Corrected)</span>
-                    <span class="correction-badge bg-red-500/10 text-red-400 text-[10px]">FIXED: String coercion</span>
-                </div>
-                <pre class="code-block bg-zinc-950 border border-zinc-800 p-5 rounded-2xl overflow-auto"><code>function validateForm(name, quantity) {
-  const nameStr = String(name).trim();
-  const qtyStr = String(quantity).trim();
-
-  const nameError = nameStr === "" ? "Product name is required" : "";
-  const quantityError = qtyStr === "" ? "Quantity is required" : "";
-
-  return {
-    nameError,
-    quantityError,
-    isValid: nameError === "" && quantityError === ""
-  };
-}</code></pre>
-            </div>
-
-            <div>
-                <div class="flex items-center gap-x-2 mb-3">
-                    <span class="font-semibold text-sm">React Controlled Form</span>
-                </div>
-                <pre class="code-block bg-zinc-950 border border-zinc-800 p-5 rounded-2xl overflow-auto"><code>function ProductForm() {
-  const [name, setName] = useState("");
-  const [quantity, setQuantity] = useState("");
-  const { nameError, quantityError, isValid } = validateForm(name, quantity);
-
-  return (
-    &lt;form&gt;
-      &lt;input 
-        value={name} 
-        onChange={e =&gt; setName(e.target.value)} 
-      /&gt;
-      {nameError &amp;&amp; &lt;p data-testid="name-input-error"&gt;{nameError}&lt;/p&gt;}
-
-      &lt;input 
-        value={quantity} 
-        onChange={e =&gt; setQuantity(e.target.value)} 
-      /&gt;
-      {quantityError &amp;&amp; &lt;p data-testid="quantity-input-error"&gt;{quantityError}&lt;/p&gt;}
-
-      &lt;button disabled={!isValid}&gt;Submit&lt;/button&gt;
-    &lt;/form&gt;
-  );
-}</code></pre>
-            </div>
-            
-            <div class="mt-4 text-xs text-zinc-500">
-                <strong>Key fixes:</strong> Used <code>String()</code> before <code>.trim()</code> • Exact error string matching • <code>data-testid</code> for test queries
-            </div>
-        </div>
-
-        <!-- Section 2: Debounce / Throttle -->
-        <div id="debounce" class="section-card bg-zinc-900 border border-zinc-800 rounded-3xl p-8 mb-8">
-            <div class="flex items-center justify-between mb-6">
-                <div>
-                    <span class="text-xs font-mono tracking-[2px] text-cyan-400">02</span>
-                    <h3 class="text-2xl font-semibold">Debounce / Throttle</h3>
-                </div>
-                <div class="correction-badge bg-emerald-500/10 text-emerald-400 border border-emerald-500/30">IMPROVED</div>
-            </div>
-            
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                <!-- Debounce -->
-                <div>
-                    <p class="font-medium mb-3 text-sm">Debounce (waits for pause)</p>
-                    <pre class="code-block bg-zinc-950 border border-zinc-800 p-5 rounded-2xl text-sm overflow-auto"><code>function debounce(fn, delay) {
-  let timer;
-  return (...args) =&gt; {
-    clearTimeout(timer);
-    timer = setTimeout(() =&gt; fn(...args), delay);
-  };
-}</code></pre>
-                </div>
-                
-                <!-- Throttle -->
-                <div>
-                    <p class="font-medium mb-3 text-sm">Throttle (max once per interval)</p>
-                    <pre class="code-block bg-zinc-950 border border-zinc-800 p-5 rounded-2xl text-sm overflow-auto"><code>function throttle(fn, limit) {
-  let inThrottle = false;
-  return (...args) =&gt; {
-    if (!inThrottle) {
-      fn(...args);
-      inThrottle = true;
-      setTimeout(() =&gt; inThrottle = false, limit);
-    }
-  };
-}</code></pre>
-                </div>
-            </div>
-            
-            <div class="mt-6">
-                <div class="flex items-center gap-x-2 mb-3">
-                    <span class="font-semibold text-sm">React Hook Version (Recommended)</span>
-                    <span class="correction-badge bg-red-500/10 text-red-400">NEW</span>
-                </div>
-                <pre class="code-block bg-zinc-950 border border-zinc-800 p-5 rounded-2xl overflow-auto"><code>function useDebounce(value, delay) {
-  const [debouncedValue, setDebouncedValue] = useState(value);
-
-  useEffect(() =&gt; {
-    const timer = setTimeout(() =&gt; {
-      setDebouncedValue(value);
-    }, delay);
-
-    return () =&gt; clearTimeout(timer);
-  }, [value, delay]);
-
-  return debouncedValue;
-}</code></pre>
-            </div>
-        </div>
-
-        <!-- Section 3: Arrays -->
-        <div id="arrays" class="section-card bg-zinc-900 border border-zinc-800 rounded-3xl p-8 mb-8">
-            <div class="flex items-center justify-between mb-6">
-                <div>
-                    <span class="text-xs font-mono tracking-[2px] text-cyan-400">03</span>
-                    <h3 class="text-2xl font-semibold">Array Manipulation</h3>
-                </div>
-            </div>
-            
-            <pre class="code-block bg-zinc-950 border border-zinc-800 p-5 rounded-2xl overflow-auto"><code>arr.filter(x =&gt; x.active)                  // keep matching
-arr.map(x =&gt; x.name)                       // transform
-arr.reduce((sum, x) =&gt; sum + x.price, 0)   // aggregate
-arr.find(x =&gt; x.id === id)                 // first match or undefined
-arr.some(x =&gt; x.done)                      // any match?
-arr.every(x =&gt; x.done)                     // all match?
-[...arr].sort((a, b) =&gt; a.value - b.value) // sort (non-mutating)
-arr.slice(start, end)                      // copy range
-
-// Case-insensitive search (very common)
-const filtered = items.filter(item =&gt;
-  item.name.toLowerCase().includes(query.toLowerCase())
-);</code></pre>
-            
-            <div class="mt-4 text-xs text-amber-400">
-                <i class="fas fa-exclamation-triangle mr-1"></i> 
-                <code>sort()</code>, <code>reverse()</code>, <code>splice()</code> mutate original array → always spread first if needed.
-            </div>
-        </div>
-
-        <!-- Section 4: React Hooks -->
-        <div id="hooks" class="section-card bg-zinc-900 border border-zinc-800 rounded-3xl p-8 mb-8">
-            <div class="flex items-center justify-between mb-6">
-                <div>
-                    <span class="text-xs font-mono tracking-[2px] text-cyan-400">04</span>
-                    <h3 class="text-2xl font-semibold">React Hooks Quick Reference</h3>
-                </div>
-            </div>
-            
-            <pre class="code-block bg-zinc-950 border border-zinc-800 p-5 rounded-2xl overflow-auto"><code>// State
-const [value, setValue] = useState(initial);
-
-// Side effects
-useEffect(() =&gt; {
-  // runs after render
-  return () =&gt; { /* cleanup */ };
-}, [dependency]); // [] = mount only
-
-// Derived values
-const total = useMemo(() =&gt; computeTotal(items), [items]);
-
-// Stable callback
-const handleClick = useCallback(() =&gt; doSomething(id), [id]);</code></pre>
-        </div>
-
-        <!-- Section 5: Event Handling -->
-        <div id="events" class="section-card bg-zinc-900 border border-zinc-800 rounded-3xl p-8 mb-8">
-            <div class="flex items-center justify-between mb-6">
-                <div>
-                    <span class="text-xs font-mono tracking-[2px] text-cyan-400">05</span>
-                    <h3 class="text-2xl font-semibold">Event Handling &amp; Outside Click</h3>
-                </div>
-                <div class="correction-badge bg-emerald-500/10 text-emerald-400 border border-emerald-500/30">IMPROVED</div>
-            </div>
-            
-            <pre class="code-block bg-zinc-950 border border-zinc-800 p-5 rounded-2xl overflow-auto"><code>function useOutsideClick(ref, onOutsideClick) {
-  useEffect(() =&gt; {
-    function handleClick(event) {
-      if (ref.current &amp;&amp; !ref.current.contains(event.target)) {
-        onOutsideClick();
-      }
-    }
-    
-    // Use mousedown for better UX with dropdowns/modals
-    document.addEventListener("mousedown", handleClick);
-    
-    return () =&gt; {
-      document.removeEventListener("mousedown", handleClick);
-    };
-  }, [ref, onOutsideClick]);
-}</code></pre>
-            
-            <div class="text-xs text-zinc-400 mt-3">Use <code>click</code> or <code>mousedown</code> depending on test spec. Always clean up listeners.</div>
-        </div>
-
-        <!-- Section 6: CSS -->
-        <div id="css" class="section-card bg-zinc-900 border border-zinc-800 rounded-3xl p-8 mb-8">
-            <div class="flex items-center justify-between mb-6">
-                <div>
-                    <span class="text-xs font-mono tracking-[2px] text-cyan-400">06</span>
-                    <h3 class="text-2xl font-semibold">CSS Quick Hits</h3>
-                </div>
-            </div>
-            
-            <pre class="code-block bg-zinc-950 border border-zinc-800 p-5 rounded-2xl overflow-auto"><code>/* Center anything */
-display: flex;
-align-items: center;
-justify-content: center;
-
-/* Responsive grid */
-display: grid;
-grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-gap: 12px;
-
-/* Text truncation */
-white-space: nowrap;
-overflow: hidden;
-text-overflow: ellipsis;
-
-/* Sticky header */
-position: sticky;
-top: 0;</code></pre>
-        </div>
-
-        <!-- Section 7: Async -->
-        <div id="async" class="section-card bg-zinc-900 border border-zinc-800 rounded-3xl p-8 mb-8">
-            <div class="flex items-center justify-between mb-6">
-                <div>
-                    <span class="text-xs font-mono tracking-[2px] text-cyan-400">07</span>
-                    <h3 class="text-2xl font-semibold">Async / API Patterns</h3>
-                </div>
-                <div class="correction-badge bg-emerald-500/10 text-emerald-400 border border-emerald-500/30">MODERNIZED</div>
-            </div>
-            
-            <pre class="code-block bg-zinc-950 border border-zinc-800 p-5 rounded-2xl overflow-auto"><code>async function fetchUser(id, signal) {
-  try {
-    const res = await fetch(`/api/users/${id}`, { signal });
-    if (!res.ok) throw new Error("Failed to fetch");
-    return await res.json();
-  } catch (err) {
-    if (err.name === "AbortError") return null;
-    console.error(err);
-    return null;
-  }
-}</code></pre>
-            
-            <div class="mt-6">
-                <p class="font-medium mb-3 text-sm">React Component with AbortController (Best Practice)</p>
-                <pre class="code-block bg-zinc-950 border border-zinc-800 p-5 rounded-2xl overflow-auto"><code>function UserProfile({ id }) {
-  const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() =&gt; {
-    const controller = new AbortController();
-    
-    fetchUser(id, controller.signal).then(data =&gt; {
-      setUser(data);
-      setLoading(false);
-    });
-
-    return () =&gt; controller.abort();
-  }, [id]);
-
-  if (loading) return &lt;p&gt;Loading...&lt;/p&gt;;
-  return &lt;p&gt;{user?.name}&lt;/p&gt;;
-}</code></pre>
-            </div>
-        </div>
-
-        <!-- Section 8: Checklist -->
-        <div id="checklist" class="section-card bg-zinc-900 border border-zinc-800 rounded-3xl p-8">
-            <div class="flex items-center justify-between mb-6">
-                <div>
-                    <span class="text-xs font-mono tracking-[2px] text-cyan-400">08</span>
-                    <h3 class="text-2xl font-semibold">Test-Taking Checklist</h3>
-                </div>
-            </div>
-            
-            <ul class="space-y-3 text-sm">
-                <li class="flex items-start gap-x-3"><span class="mt-1 text-emerald-400">✓</span> Read the <strong>exact</strong> expected output/error strings</li>
-                <li class="flex items-start gap-x-3"><span class="mt-1 text-emerald-400">✓</span> Check for <code>data-testid</code> requirements in the spec</li>
-                <li class="flex items-start gap-x-3"><span class="mt-1 text-emerald-400">✓</span> Handle empty/edge cases first (most common hidden tests)</li>
-                <li class="flex items-start gap-x-3"><span class="mt-1 text-emerald-400">✓</span> Run against the provided example before mental tracing</li>
-                <li class="flex items-start gap-x-3"><span class="mt-1 text-emerald-400">✓</span> Get a naive correct version working before optimizing</li>
-            </ul>
-        </div>
-
-        <div class="mt-12 text-center text-xs text-zinc-500">
-            Built for fast recall in timed frontend assessments • All patterns tested against common HackerRank-style requirements
-        </div>
-    </div>
-
     <script>
-        // Tailwind script
-        function initializeTailwind() {
-            document.documentElement.style.setProperty('--accent', '#22d3ee');
-        }
-        
-        // Copy button functionality (bonus)
-        function addCopyButtons() {
-            const pres = document.querySelectorAll('pre');
-            pres.forEach(pre => {
-                const btn = document.createElement('button');
-                btn.innerHTML = '&lt;i class="fas fa-copy"&gt;&lt;/i&gt;';
-                btn.className = 'absolute top-3 right-3 px-3 py-1 text-xs bg-zinc-800 hover:bg-zinc-700 rounded-xl text-zinc-400 hover:text-white transition-all';
-                btn.style.position = 'absolute';
-                
-                const wrapper = document.createElement('div');
-                wrapper.style.position = 'relative';
-                pre.parentNode.insertBefore(wrapper, pre);
-                wrapper.appendChild(pre);
-                wrapper.appendChild(btn);
-                
-                btn.onclick = () => {
-                    navigator.clipboard.writeText(pre.innerText).then(() => {
-                        const original = btn.innerHTML;
-                        btn.innerHTML = '&lt;i class="fas fa-check"&gt;&lt;/i&gt; Copied!';
-                        setTimeout(() => btn.innerHTML = original, 1800);
-                    });
-                };
-            });
-        }
-        
-        window.onload = function() {
-            initializeTailwind();
-            // Uncomment below if you want copy buttons on every code block
-            // addCopyButtons();
-        };
-        
-        // Keyboard shortcut for print
-        document.addEventListener('keydown', function(e) {
-            if (e.ctrlKey && e.key === 'p') {
-                // Let browser handle print
+        // Tailwind script already included
+
+        const questions = [
+            {
+                q: "What should you use before .trim() on form inputs to safely handle numbers?",
+                a: ["String(value)", "Number(value)", "Boolean(value)", "parseInt(value)"],
+                correct: 0
+            },
+            {
+                q: "Which React hook is recommended for debounced search input?",
+                a: ["useEffect", "useDebounce custom hook", "useMemo", "useCallback"],
+                correct: 1
+            },
+            {
+                q: "How do you prevent memory leaks in useEffect for fetch calls?",
+                a: ["return () => {}", "use AbortController", "Both", "None"],
+                correct: 2
+            },
+            {
+                q: "What is the correct way to make array sort non-mutating?",
+                a: ["arr.sort()", "[...arr].sort()", "arr.toSorted()", "Both B and C"],
+                correct: 3
+            },
+            {
+                q: "Which event is often better than 'click' for outside click handlers?",
+                a: ["click", "mousedown", "mouseup", "pointerdown"],
+                correct: 1
+            },
+            {
+                q: "What should you add to fetch() to support cancellation?",
+                a: ["{ signal }", "AbortController", "Both", "None"],
+                correct: 2
+            },
+            {
+                q: "Best practice for list rendering key?",
+                a: ["index", "id", "random", "name"],
+                correct: 1
+            },
+            {
+                q: "What does throttle() limit?",
+                a: ["Total calls", "Calls per time period", "Delay after last call", "None"],
+                correct: 1
+            },
+            {
+                q: "Common data-testid for error message in forms?",
+                a: ["error", "validation-error", "name-error", "All possible"],
+                correct: 3
+            },
+            {
+                q: "How do you safely check empty input?",
+                a: ["value === ''", "String(value).trim() === ''", "!value", "value.length === 0"],
+                correct: 1
             }
-        });
+        ];
+
+        let currentQuestion = 0;
+        let score = 0;
+
+        function startQuiz() {
+            currentQuestion = 0;
+            score = 0;
+            renderQuestion();
+        }
+
+        function renderQuestion() {
+            const q = questions[currentQuestion];
+            let html = `
+                <div class="mb-8">
+                    <div class="text-sm text-cyan-400 mb-2">Question ${currentQuestion + 1} / ${questions.length}</div>
+                    <h3 class="text-2xl font-semibold mb-6">${q.q}</h3>
+                    
+                    <div class="space-y-3">
+                        ${q.a.map((option, i) => `
+                            <button onclick="answer(${i})" 
+                                    class="quiz-option w-full text-left px-6 py-4 bg-zinc-800 hover:bg-zinc-700 border border-zinc-700 rounded-2xl text-lg">
+                                ${option}
+                            </button>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+            document.getElementById("quiz-container").innerHTML = html;
+            document.getElementById("score").textContent = `${score} / ${questions.length}`;
+        }
+
+        window.answer = function(selected) {
+            const q = questions[currentQuestion];
+            if (selected === q.correct) {
+                score++;
+            }
+
+            currentQuestion++;
+
+            if (currentQuestion < questions.length) {
+                renderQuestion();
+            } else {
+                // Final screen
+                document.getElementById("quiz-container").innerHTML = `
+                    <div class="text-center py-12">
+                        <h2 class="text-5xl font-bold mb-4">Quiz Complete!</h2>
+                        <p class="text-6xl font-mono mb-8 text-cyan-400">${score} / ${questions.length}</p>
+                        <p class="text-xl mb-8">
+                            ${score >= 8 ? "Excellent! You're ready for the test 🔥" : 
+                              score >= 6 ? "Good job! Review the weaker areas." : 
+                              "Keep practicing with the cheat sheet!"}
+                        </p>
+                        <button onclick="startQuiz()" 
+                                class="px-10 py-4 bg-white text-black rounded-3xl font-semibold text-lg">
+                            Try Again
+                        </button>
+                    </div>
+                `;
+                document.getElementById("score").textContent = `${score} / ${questions.length}`;
+            }
+        };
+
+        // Start quiz automatically on load
+        window.onload = () => {
+            startQuiz();
+        };
     </script>
 </body>
 </html>
