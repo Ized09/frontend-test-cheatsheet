@@ -107,11 +107,22 @@
         }
 
         const questions = [
-            {q: "Safe way to trim form inputs?", a: ["String(value).trim()", "value.trim()", "Both safe with String()"], c: 0},
-            {q: "Cancel fetch on unmount?", a: ["AbortController", "useEffect cleanup", "Both"], c: 2},
-            {q: "Non-mutating sort?", a: ["[...arr].sort()", "arr.sort()", "arr.toSorted()"], c: 0},
-            {q: "Best event for outside click?", a: ["click", "mousedown", "Both work"], c: 1},
-            {q: "Stable callback hook?", a: ["useMemo", "useCallback", "useEffect"], c: 1},
+    { q: "Safe way to trim form inputs before checking empty?", a: ["String(value).trim()", "value.trim()", "Both are safe with String() first"], c: 0 },
+    { q: "Best way to cancel a fetch request on component unmount?", a: ["AbortController", "useEffect cleanup only", "Both"], c: 2 },
+    { q: "How to make array.sort() non-mutating?", a: ["arr.sort()", "[...arr].sort()", "arr.toSorted()"], c: 1 },
+    { q: "Better event for outside click handlers (dropdowns)?", a: ["click", "mousedown", "Both work"], c: 1 },
+    { q: "Which hook gives stable function reference?", a: ["useMemo", "useCallback", "useEffect"], c: 1 },
+    { q: "Common data-testid for error message in forms?", a: ["error", "name-error", "data-testid is required by tests"], c: 2 },
+    { q: "How to handle loading + error states in fetch?", a: ["useState for both", "try/catch", "Both"], c: 2 },
+    { q: "What should you always use as key in mapped lists?", a: ["index", "unique id", "random number"], c: 1 },
+    { q: "Throttle vs Debounce — which for search input?", a: ["Throttle", "Debounce", "Either"], c: 1 },
+    { q: "How to safely check if input is empty?", a: ["value === ''", "String(value).trim() === ''", "Both"], c: 1 },
+    { q: "Best practice for form submit?", a: ["e.preventDefault()", "No need", "Both"], c: 0 },
+    { q: "Which hook runs after every render by default?", a: ["useEffect without deps", "useMemo", "useCallback"], c: 0 },
+    { q: "How to persist data across refreshes simply?", a: ["localStorage", "useState only", "Cookies"], c: 0 },
+    { q: "What is the order of specificity in CSS?", a: ["element < class < id", "id > class > element", "inline > all"], c: 0 },
+    { q: "Why use useCallback when passing functions to children?", a: ["Prevent unnecessary re-renders", "For performance only", "Styling"], c: 0 }
+];
             // Add more as needed - this is expandable
         ];
 
