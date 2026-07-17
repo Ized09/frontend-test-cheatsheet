@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Frontend Test Cheat Sheet + Quiz • Final</title>
+    <title>Frontend Test Cheat Sheet + Quiz • v3.0</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
@@ -21,7 +21,7 @@
                 <div class="w-12 h-12 bg-gradient-to-br from-cyan-400 to-teal-500 rounded-2xl flex items-center justify-center text-3xl">💻</div>
                 <div>
                     <h1 class="text-3xl font-semibold tracking-tight">Frontend Test Cheat Sheet</h1>
-                    <p class="text-zinc-400 text-sm">Full + Quiz • Ready for Minddrift</p>
+                    <p class="text-zinc-400 text-sm">v3.0 • Full + Timed Quiz</p>
                 </div>
             </div>
             <button onclick="window.print()" class="flex items-center gap-2 px-6 py-3 bg-white text-zinc-900 rounded-3xl font-medium hover:bg-cyan-400">
@@ -79,22 +79,31 @@
 }</code></pre>
                 </div>
 
-                <!-- You can keep adding more sections here -->
+                <div>
+                    <h3 class="text-2xl font-semibold mb-4">4. Async with AbortController</h3>
+                    <pre class="code-block bg-zinc-900 border border-zinc-800 p-6 rounded-3xl overflow-auto"><code>useEffect(() => {
+  const controller = new AbortController();
+  fetch(url, { signal: controller.signal });
+  return () => controller.abort();
+}, [id]);</code></pre>
+                </div>
 
             </div>
         </div>
 
-        <!-- QUIZ -->
-        <div id="quiz" class="hidden">
-            <div class="max-w-3xl mx-auto">
-                <h2 class="text-4xl font-bold mb-8">Quiz Mode</h2>
-                <div id="quiz-content" class="bg-zinc-900 border border-zinc-700 rounded-3xl p-10 min-h-[420px]"></div>
-                <button onclick="startQuiz()" class="mt-8 w-full py-4 bg-white text-zinc-900 rounded-3xl font-semibold hover:bg-cyan-400">Restart Quiz</button>
+        <!-- QUIZ MODE -->
+        <div id="quiz" class="hidden max-w-3xl mx-auto">
+            <div class="flex justify-between items-center mb-8">
+                <h2 class="text-4xl font-bold">Quiz Mode</h2>
+                <div class="text-xl">Time left: <span id="timer" class="font-mono text-cyan-400">30</span>s</div>
             </div>
+            <div id="quiz-content" class="bg-zinc-900 border border-zinc-700 rounded-3xl p-10 min-h-[420px]"></div>
+            <button onclick="startQuiz()" class="mt-8 w-full py-4 bg-white text-zinc-900 rounded-3xl font-semibold hover:bg-cyan-400">Restart Quiz</button>
         </div>
     </div>
 
     <script>
+        // Tab switching
         function showSection(section) {
             document.getElementById('cheatsheet').classList.add('hidden');
             document.getElementById('quiz').classList.add('hidden');
@@ -106,34 +115,50 @@
             });
         }
 
+        // Quiz Data (15 questions)
         const questions = [
-    { q: "Safe way to trim form inputs before checking empty?", a: ["String(value).trim()", "value.trim()", "Both are safe with String() first"], c: 0 },
-    { q: "Best way to cancel a fetch request on component unmount?", a: ["AbortController", "useEffect cleanup only", "Both"], c: 2 },
-    { q: "How to make array.sort() non-mutating?", a: ["arr.sort()", "[...arr].sort()", "arr.toSorted()"], c: 1 },
-    { q: "Better event for outside click handlers (dropdowns)?", a: ["click", "mousedown", "Both work"], c: 1 },
-    { q: "Which hook gives stable function reference?", a: ["useMemo", "useCallback", "useEffect"], c: 1 },
-    { q: "Common data-testid for error message in forms?", a: ["error", "name-error", "data-testid is required by tests"], c: 2 },
-    { q: "How to handle loading + error states in fetch?", a: ["useState for both", "try/catch", "Both"], c: 2 },
-    { q: "What should you always use as key in mapped lists?", a: ["index", "unique id", "random number"], c: 1 },
-    { q: "Throttle vs Debounce — which for search input?", a: ["Throttle", "Debounce", "Either"], c: 1 },
-    { q: "How to safely check if input is empty?", a: ["value === ''", "String(value).trim() === ''", "Both"], c: 1 },
-    { q: "Best practice for form submit?", a: ["e.preventDefault()", "No need", "Both"], c: 0 },
-    { q: "Which hook runs after every render by default?", a: ["useEffect without deps", "useMemo", "useCallback"], c: 0 },
-    { q: "How to persist data across refreshes simply?", a: ["localStorage", "useState only", "Cookies"], c: 0 },
-    { q: "What is the order of specificity in CSS?", a: ["element < class < id", "id > class > element", "inline > all"], c: 0 },
-    { q: "Why use useCallback when passing functions to children?", a: ["Prevent unnecessary re-renders", "For performance only", "Styling"], c: 0 }
-];
-            // Add more as needed - this is expandable
+            { q: "Safe way to trim form inputs?", a: ["String(value).trim()", "value.trim()", "Both with String()"], c: 0 },
+            { q: "Best way to cancel fetch on unmount?", a: ["AbortController", "useEffect cleanup", "Both"], c: 2 },
+            { q: "Non-mutating sort?", a: ["[...arr].sort()", "arr.sort()", "arr.toSorted()"], c: 0 },
+            { q: "Better event for outside click?", a: ["click", "mousedown", "Both"], c: 1 },
+            { q: "Stable function reference hook?", a: ["useMemo", "useCallback", "useEffect"], c: 1 },
+            { q: "Common data-testid for error?", a: ["error", "name-error", "Required by tests"], c: 2 },
+            { q: "Handle loading + error in fetch?", a: ["useState", "try/catch", "Both"], c: 2 },
+            { q: "Best key for mapped lists?", a: ["index", "unique id", "random"], c: 1 },
+            { q: "Debounce vs Throttle for search?", a: ["Throttle", "Debounce", "Either"], c: 1 },
+            { q: "Safe empty input check?", a: ["value === ''", "String(value).trim() === ''", "Both"], c: 1 },
+            { q: "Prevent form reload on submit?", a: ["e.preventDefault()", "No need", "Both"], c: 0 },
+            { q: "Hook that runs after every render?", a: ["useEffect no deps", "useMemo", "useCallback"], c: 0 },
+            { q: "Persist data across refreshes?", a: ["localStorage", "useState", "Cookies"], c: 0 },
+            { q: "CSS specificity order?", a: ["element < class < id", "id > class > element", "inline > all"], c: 0 },
+            { q: "Why use useCallback for child props?", a: ["Prevent re-renders", "Styling", "Performance only"], c: 0 }
         ];
 
-        let currentQ = 0, score = 0;
+        let currentQ = 0, score = 0, timerInterval;
 
         function startQuiz() {
             currentQ = 0; score = 0;
+            clearInterval(timerInterval);
             renderQuestion();
         }
 
+        function startTimer() {
+            let time = 30;
+            document.getElementById('timer').textContent = time;
+            timerInterval = setInterval(() => {
+                time--;
+                document.getElementById('timer').textContent = time;
+                if (time <= 0) {
+                    clearInterval(timerInterval);
+                    currentQ++;
+                    if (currentQ < questions.length) renderQuestion();
+                    else finishQuiz();
+                }
+            }, 1000);
+        }
+
         function renderQuestion() {
+            clearInterval(timerInterval);
             const q = questions[currentQ];
             document.getElementById('quiz-content').innerHTML = `
                 <div>
@@ -143,14 +168,25 @@
                         ${q.a.map((ans,i) => `<button onclick="selectAnswer(${i})" class="block w-full text-left p-5 bg-zinc-800 hover:bg-zinc-700 rounded-2xl">${ans}</button>`).join('')}
                     </div>
                 </div>`;
+            startTimer();
         }
 
         window.selectAnswer = function(i) {
             if (i === questions[currentQ].c) score++;
+            clearInterval(timerInterval);
             currentQ++;
             if (currentQ < questions.length) renderQuestion();
-            else document.getElementById('quiz-content').innerHTML = `<div class="text-center py-20"><h2 class="text-5xl">Done!</h2><p class="text-6xl my-6 text-cyan-400">${score}/${questions.length}</p></div>`;
+            else finishQuiz();
         };
+
+        function finishQuiz() {
+            document.getElementById('quiz-content').innerHTML = `
+                <div class="text-center py-20">
+                    <h2 class="text-5xl font-bold mb-4">Quiz Complete!</h2>
+                    <p class="text-6xl font-mono text-cyan-400 mb-4">${score} / ${questions.length}</p>
+                    <p class="text-xl">Great job! Review weak areas.</p>
+                </div>`;
+        }
 
         window.onload = () => showSection('cheatsheet');
     </script>
