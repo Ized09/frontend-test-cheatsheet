@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Frontend Test Cheat Sheet + Quiz • v3.0</title>
+    <title>Frontend Test Cheat Sheet + Quiz • v3.1</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
@@ -21,7 +21,7 @@
                 <div class="w-12 h-12 bg-gradient-to-br from-cyan-400 to-teal-500 rounded-2xl flex items-center justify-center text-3xl">💻</div>
                 <div>
                     <h1 class="text-3xl font-semibold tracking-tight">Frontend Test Cheat Sheet</h1>
-                    <p class="text-zinc-400 text-sm">v3.0 • Full + Timed Quiz</p>
+                    <p class="text-zinc-400 text-sm">v3.1 • Original Rich Content + Quiz</p>
                 </div>
             </div>
             <button onclick="window.print()" class="flex items-center gap-2 px-6 py-3 bg-white text-zinc-900 rounded-3xl font-medium hover:bg-cyan-400">
@@ -38,52 +38,63 @@
             <button onclick="showSection('quiz')" id="tab-quiz" class="tab-button px-8 py-4 rounded-3xl text-lg">🧠 Quiz Mode</button>
         </div>
 
-        <!-- CHEAT SHEET -->
+        <!-- CHEAT SHEET - RESTORED ORIGINAL v1 CONTENT -->
         <div id="cheatsheet">
-            <h2 class="text-4xl font-bold mb-10">Cheat Sheet</h2>
+            <h2 class="text-4xl font-bold mb-10">Frontend Developer Test Cheat Sheet</h2>
+
             <div class="space-y-16">
 
                 <div>
                     <h3 class="text-2xl font-semibold mb-4">1. Form Validation</h3>
                     <pre class="code-block bg-zinc-900 border border-zinc-800 p-6 rounded-3xl overflow-auto"><code>function validateForm(name, quantity) {
-  const nameStr = String(name).trim();
-  const qtyStr = String(quantity).trim();
-  const nameError = nameStr === "" ? "Product name is required" : "";
-  const quantityError = qtyStr === "" ? "Quantity is required" : "";
-  return { nameError, quantityError, isValid: !nameError && !quantityError };
+  const nameError = name.trim() === "" ? "Product name is required" : "";
+  const quantityError = quantity.trim() === "" ? "Quantity is required" : "";
+  return { nameError, quantityError, isValid: nameError === "" && quantityError === "" };
 }</code></pre>
                 </div>
 
                 <div>
-                    <h3 class="text-2xl font-semibold mb-4">2. Debounce Hook</h3>
-                    <pre class="code-block bg-zinc-900 border border-zinc-800 p-6 rounded-3xl overflow-auto"><code>function useDebounce(value, delay) {
-  const [debounced, setDebounced] = useState(value);
-  useEffect(() => {
-    const timer = setTimeout(() => setDebounced(value), delay);
-    return () => clearTimeout(timer);
-  }, [value, delay]);
-  return debounced;
+                    <h3 class="text-2xl font-semibold mb-4">2. Debounce / Throttle</h3>
+                    <pre class="code-block bg-zinc-900 border border-zinc-800 p-6 rounded-3xl overflow-auto"><code>function debounce(fn, delay) {
+  let timer;
+  return (...args) => { clearTimeout(timer); timer = setTimeout(() => fn(...args), delay); };
 }</code></pre>
                 </div>
 
                 <div>
-                    <h3 class="text-2xl font-semibold mb-4">3. useOutsideClick</h3>
-                    <pre class="code-block bg-zinc-900 border border-zinc-800 p-6 rounded-3xl overflow-auto"><code>function useOutsideClick(ref, callback) {
+                    <h3 class="text-2xl font-semibold mb-4">3. Array Manipulation</h3>
+                    <pre class="code-block bg-zinc-900 border border-zinc-800 p-6 rounded-3xl overflow-auto"><code>arr.filter(x => x.active)
+arr.map(x => x.name)
+[...arr].sort((a, b) => a.value - b.value)
+const filtered = items.filter(item => item.name.toLowerCase().includes(query.toLowerCase()));</code></pre>
+                </div>
+
+                <div>
+                    <h3 class="text-2xl font-semibold mb-4">4. React Hooks</h3>
+                    <pre class="code-block bg-zinc-900 border border-zinc-800 p-6 rounded-3xl overflow-auto"><code>const [value, setValue] = useState(initial);
+useEffect(() => { return () => {}; }, [dependency]);
+const total = useMemo(() => compute(items), [items]);
+const handleClick = useCallback(() => doSomething(id), [id]);</code></pre>
+                </div>
+
+                <div>
+                    <h3 class="text-2xl font-semibold mb-4">5. useOutsideClick</h3>
+                    <pre class="code-block bg-zinc-900 border border-zinc-800 p-6 rounded-3xl overflow-auto"><code>function useOutsideClick(ref, onOutsideClick) {
   useEffect(() => {
-    const handler = (e) => {
-      if (ref.current && !ref.current.contains(e.target)) callback();
+    const handle = (e) => {
+      if (ref.current && !ref.current.contains(e.target)) onOutsideClick();
     };
-    document.addEventListener("mousedown", handler);
-    return () => document.removeEventListener("mousedown", handler);
-  }, [ref, callback]);
+    document.addEventListener("click", handle);
+    return () => document.removeEventListener("click", handle);
+  }, [ref, onOutsideClick]);
 }</code></pre>
                 </div>
 
                 <div>
-                    <h3 class="text-2xl font-semibold mb-4">4. Async with AbortController</h3>
+                    <h3 class="text-2xl font-semibold mb-4">6. Async Pattern</h3>
                     <pre class="code-block bg-zinc-900 border border-zinc-800 p-6 rounded-3xl overflow-auto"><code>useEffect(() => {
   const controller = new AbortController();
-  fetch(url, { signal: controller.signal });
+  fetchUser(id, controller.signal);
   return () => controller.abort();
 }, [id]);</code></pre>
                 </div>
@@ -91,104 +102,8 @@
             </div>
         </div>
 
-        <!-- QUIZ MODE -->
+        <!-- QUIZ MODE (15 questions) -->
         <div id="quiz" class="hidden max-w-3xl mx-auto">
-            <div class="flex justify-between items-center mb-8">
-                <h2 class="text-4xl font-bold">Quiz Mode</h2>
-                <div class="text-xl">Time left: <span id="timer" class="font-mono text-cyan-400">30</span>s</div>
-            </div>
+            <h2 class="text-4xl font-bold mb-8">Quiz Mode</h2>
             <div id="quiz-content" class="bg-zinc-900 border border-zinc-700 rounded-3xl p-10 min-h-[420px]"></div>
             <button onclick="startQuiz()" class="mt-8 w-full py-4 bg-white text-zinc-900 rounded-3xl font-semibold hover:bg-cyan-400">Restart Quiz</button>
-        </div>
-    </div>
-
-    <script>
-        // Tab switching
-        function showSection(section) {
-            document.getElementById('cheatsheet').classList.add('hidden');
-            document.getElementById('quiz').classList.add('hidden');
-            document.getElementById(section).classList.remove('hidden');
-
-            document.querySelectorAll('.tab-button').forEach(tab => {
-                tab.classList.remove('active-tab');
-                if (tab.id === `tab-${section}`) tab.classList.add('active-tab');
-            });
-        }
-
-        // Quiz Data (15 questions)
-        const questions = [
-            { q: "Safe way to trim form inputs?", a: ["String(value).trim()", "value.trim()", "Both with String()"], c: 0 },
-            { q: "Best way to cancel fetch on unmount?", a: ["AbortController", "useEffect cleanup", "Both"], c: 2 },
-            { q: "Non-mutating sort?", a: ["[...arr].sort()", "arr.sort()", "arr.toSorted()"], c: 0 },
-            { q: "Better event for outside click?", a: ["click", "mousedown", "Both"], c: 1 },
-            { q: "Stable function reference hook?", a: ["useMemo", "useCallback", "useEffect"], c: 1 },
-            { q: "Common data-testid for error?", a: ["error", "name-error", "Required by tests"], c: 2 },
-            { q: "Handle loading + error in fetch?", a: ["useState", "try/catch", "Both"], c: 2 },
-            { q: "Best key for mapped lists?", a: ["index", "unique id", "random"], c: 1 },
-            { q: "Debounce vs Throttle for search?", a: ["Throttle", "Debounce", "Either"], c: 1 },
-            { q: "Safe empty input check?", a: ["value === ''", "String(value).trim() === ''", "Both"], c: 1 },
-            { q: "Prevent form reload on submit?", a: ["e.preventDefault()", "No need", "Both"], c: 0 },
-            { q: "Hook that runs after every render?", a: ["useEffect no deps", "useMemo", "useCallback"], c: 0 },
-            { q: "Persist data across refreshes?", a: ["localStorage", "useState", "Cookies"], c: 0 },
-            { q: "CSS specificity order?", a: ["element < class < id", "id > class > element", "inline > all"], c: 0 },
-            { q: "Why use useCallback for child props?", a: ["Prevent re-renders", "Styling", "Performance only"], c: 0 }
-        ];
-
-        let currentQ = 0, score = 0, timerInterval;
-
-        function startQuiz() {
-            currentQ = 0; score = 0;
-            clearInterval(timerInterval);
-            renderQuestion();
-        }
-
-        function startTimer() {
-            let time = 30;
-            document.getElementById('timer').textContent = time;
-            timerInterval = setInterval(() => {
-                time--;
-                document.getElementById('timer').textContent = time;
-                if (time <= 0) {
-                    clearInterval(timerInterval);
-                    currentQ++;
-                    if (currentQ < questions.length) renderQuestion();
-                    else finishQuiz();
-                }
-            }, 1000);
-        }
-
-        function renderQuestion() {
-            clearInterval(timerInterval);
-            const q = questions[currentQ];
-            document.getElementById('quiz-content').innerHTML = `
-                <div>
-                    <div class="text-cyan-400 mb-2">Question ${currentQ + 1} / ${questions.length}</div>
-                    <h3 class="text-2xl font-semibold mb-8">${q.q}</h3>
-                    <div class="space-y-4">
-                        ${q.a.map((ans,i) => `<button onclick="selectAnswer(${i})" class="block w-full text-left p-5 bg-zinc-800 hover:bg-zinc-700 rounded-2xl">${ans}</button>`).join('')}
-                    </div>
-                </div>`;
-            startTimer();
-        }
-
-        window.selectAnswer = function(i) {
-            if (i === questions[currentQ].c) score++;
-            clearInterval(timerInterval);
-            currentQ++;
-            if (currentQ < questions.length) renderQuestion();
-            else finishQuiz();
-        };
-
-        function finishQuiz() {
-            document.getElementById('quiz-content').innerHTML = `
-                <div class="text-center py-20">
-                    <h2 class="text-5xl font-bold mb-4">Quiz Complete!</h2>
-                    <p class="text-6xl font-mono text-cyan-400 mb-4">${score} / ${questions.length}</p>
-                    <p class="text-xl">Great job! Review weak areas.</p>
-                </div>`;
-        }
-
-        window.onload = () => showSection('cheatsheet');
-    </script>
-</body>
-</html>
