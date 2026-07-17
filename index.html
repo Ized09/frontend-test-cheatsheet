@@ -3,67 +3,82 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Frontend Developer Test Cheat Sheet • Updated 2026</title>
+    <title>Frontend Test Cheat Sheet + Quiz</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
         body { font-family: 'Inter', system_ui, sans-serif; }
-        .code-block { font-family: ui-monospace, monospace; }
-        .quiz-option { transition: all 0.2s; }
-        .quiz-option:hover { transform: translateX(8px); }
+        .code-block { font-family: ui-monospace, SFMono-Regular, monospace; font-size: 13.5px; }
+        .tab-button { transition: all 0.2s; }
+        .active-tab { background-color: #22d3ee; color: black; font-weight: 600; }
     </style>
 </head>
-<body class="bg-zinc-950 text-zinc-200">
+<body class="bg-zinc-950 text-zinc-200 min-h-screen">
 
-    <!-- Header (same as before) -->
-    <div class="border-b border-zinc-800 bg-zinc-900 sticky top-0 z-50">
+    <!-- Header -->
+    <header class="border-b border-zinc-800 bg-zinc-900 sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-8 py-6 flex items-center justify-between">
-            <div class="flex items-center gap-x-4">
-                <div class="w-11 h-11 bg-gradient-to-br from-cyan-400 to-teal-500 rounded-2xl flex items-center justify-center">
-                    <i class="fas fa-laptop-code text-white text-3xl"></i>
-                </div>
+            <div class="flex items-center gap-4">
+                <div class="w-12 h-12 bg-gradient-to-br from-cyan-400 to-teal-500 rounded-2xl flex items-center justify-center text-3xl">💻</div>
                 <div>
-                    <h1 class="text-3xl font-semibold tracking-tighter">Frontend Test Cheat Sheet</h1>
-                    <p class="text-zinc-400 text-sm">Updated &amp; Corrected • Quiz Mode Added</p>
+                    <h1 class="text-3xl font-semibold tracking-tight">Frontend Test Cheat Sheet</h1>
+                    <p class="text-zinc-400 text-sm">React • JS • CSS • Interactive Quiz</p>
                 </div>
             </div>
-            <button onclick="window.print()" class="flex items-center gap-x-2 px-5 py-2.5 bg-white text-zinc-900 hover:bg-zinc-100 font-semibold rounded-3xl text-sm">
-                <i class="fas fa-download"></i> Save PDF
+            <button onclick="window.print()" class="flex items-center gap-2 px-6 py-3 bg-white text-zinc-900 rounded-3xl font-medium hover:bg-cyan-400 transition">
+                <i class="fas fa-download"></i> Save as PDF
             </button>
         </div>
-    </div>
+    </header>
 
     <div class="max-w-7xl mx-auto px-8 py-10">
 
         <!-- Navigation -->
-        <div class="flex gap-2 mb-10 border-b border-zinc-800 pb-4">
-            <a href="#cheatsheet" class="nav-link px-5 py-2 text-sm font-medium rounded-3xl hover:bg-zinc-900">Cheat Sheet</a>
-            <a href="#quiz" class="nav-link px-5 py-2 text-sm font-medium bg-cyan-500 text-black rounded-3xl">Quiz Mode</a>
+        <div class="flex gap-3 mb-12 border-b border-zinc-800 pb-6">
+            <button onclick="showSection('cheatsheet')" id="tab-cheatsheet"
+                    class="tab-button active-tab px-8 py-4 rounded-3xl text-lg">📋 Cheat Sheet</button>
+            <button onclick="showSection('quiz')" id="tab-quiz"
+                    class="tab-button px-8 py-4 rounded-3xl text-lg">🧠 Quiz Mode</button>
         </div>
 
-        <!-- Existing Cheat Sheet Content (truncated for brevity - keep your previous sections here) -->
+        <!-- CHEAT SHEET SECTION -->
         <div id="cheatsheet">
-            <!-- Paste all your previous sections here (Form Validation, Debounce, etc.) -->
-            <h2 class="text-4xl font-bold mb-8">Cheat Sheet</h2>
-            <!-- ... your existing content ... -->
+            <h2 class="text-4xl font-bold mb-10">Cheat Sheet</h2>
+            
+            <!-- 1. Form Validation -->
+            <div class="mb-16">
+                <h3 class="text-2xl font-semibold mb-4">1. Form Validation</h3>
+                <pre class="code-block bg-zinc-900 p-6 rounded-3xl overflow-auto"><code>function validateForm(name, quantity) {
+  const nameStr = String(name).trim();
+  const qtyStr = String(quantity).trim();
+  const nameError = nameStr === "" ? "Product name is required" : "";
+  const quantityError = qtyStr === "" ? "Quantity is required" : "";
+  return { nameError, quantityError, isValid: !nameError && !quantityError };
+}</code></pre>
+            </div>
+
+            <!-- Add more sections here as needed (you can expand later) -->
+
+            <div class="text-center text-zinc-500 py-12">
+                <p>Your full cheat sheet content goes here...</p>
+                <p class="mt-2">Add the rest of your sections below this comment.</p>
+            </div>
         </div>
 
-        <!-- ====================== QUIZ SECTION ====================== -->
-        <div id="quiz" class="mt-16">
-            <div class="flex justify-between items-end mb-8">
-                <div>
-                    <h2 class="text-4xl font-bold">Quiz Mode</h2>
-                    <p class="text-zinc-400">Test how much you've memorized • 10 questions</p>
+        <!-- QUIZ SECTION -->
+        <div id="quiz" class="hidden">
+            <div class="max-w-2xl mx-auto">
+                <div class="flex justify-between items-center mb-8">
+                    <h2 class="text-4xl font-bold">Frontend Quiz Mode</h2>
+                    <div id="score-display" class="text-3xl font-mono font-bold text-cyan-400">0 / 10</div>
                 </div>
-                <div id="score" class="text-3xl font-mono font-bold text-cyan-400">0 / 10</div>
-            </div>
 
-            <div id="quiz-container" class="bg-zinc-900 border border-zinc-800 rounded-3xl p-8">
-                <!-- Quiz content injected by JS -->
-            </div>
+                <div id="quiz-content" class="bg-zinc-900 border border-zinc-700 rounded-3xl p-10">
+                    <!-- JS injected -->
+                </div>
 
-            <div class="mt-6 text-center">
-                <button onclick="startQuiz()" class="px-8 py-3 bg-white text-zinc-900 rounded-3xl font-semibold hover:bg-cyan-400">
+                <button onclick="startQuiz()" 
+                        class="mt-8 w-full py-4 bg-white text-zinc-900 rounded-3xl font-semibold text-lg hover:bg-cyan-400">
                     Restart Quiz
                 </button>
             </div>
@@ -71,125 +86,75 @@
     </div>
 
     <script>
-        // Tailwind script already included
+        // ============== TAB SWITCHING ==============
+        function showSection(section) {
+            document.getElementById('cheatsheet').classList.add('hidden');
+            document.getElementById('quiz').classList.add('hidden');
+            
+            document.getElementById(section).classList.remove('hidden');
 
-        const questions = [
-            {
-                q: "What should you use before .trim() on form inputs to safely handle numbers?",
-                a: ["String(value)", "Number(value)", "Boolean(value)", "parseInt(value)"],
-                correct: 0
-            },
-            {
-                q: "Which React hook is recommended for debounced search input?",
-                a: ["useEffect", "useDebounce custom hook", "useMemo", "useCallback"],
-                correct: 1
-            },
-            {
-                q: "How do you prevent memory leaks in useEffect for fetch calls?",
-                a: ["return () => {}", "use AbortController", "Both", "None"],
-                correct: 2
-            },
-            {
-                q: "What is the correct way to make array sort non-mutating?",
-                a: ["arr.sort()", "[...arr].sort()", "arr.toSorted()", "Both B and C"],
-                correct: 3
-            },
-            {
-                q: "Which event is often better than 'click' for outside click handlers?",
-                a: ["click", "mousedown", "mouseup", "pointerdown"],
-                correct: 1
-            },
-            {
-                q: "What should you add to fetch() to support cancellation?",
-                a: ["{ signal }", "AbortController", "Both", "None"],
-                correct: 2
-            },
-            {
-                q: "Best practice for list rendering key?",
-                a: ["index", "id", "random", "name"],
-                correct: 1
-            },
-            {
-                q: "What does throttle() limit?",
-                a: ["Total calls", "Calls per time period", "Delay after last call", "None"],
-                correct: 1
-            },
-            {
-                q: "Common data-testid for error message in forms?",
-                a: ["error", "validation-error", "name-error", "All possible"],
-                correct: 3
-            },
-            {
-                q: "How do you safely check empty input?",
-                a: ["value === ''", "String(value).trim() === ''", "!value", "value.length === 0"],
-                correct: 1
-            }
+            // Update active tab
+            document.querySelectorAll('.tab-button').forEach(tab => {
+                tab.classList.remove('active-tab');
+                if (tab.id === `tab-${section}`) tab.classList.add('active-tab');
+            });
+        }
+
+        // ============== QUIZ LOGIC ==============
+        const quizQuestions = [
+            { q: "What should you wrap before .trim() on inputs?", a: ["String()", "Number()", "Boolean()", "JSON.stringify()"], c: 0 },
+            { q: "Best way to cancel fetch on unmount?", a: ["useEffect cleanup", "AbortController", "Both", "setTimeout"], c: 2 },
+            { q: "How to make sort() non-mutating?", a: ["arr.sort()", "[...arr].sort()", "arr.toSorted()", "B and C"], c: 3 },
+            // Add more questions here...
         ];
 
-        let currentQuestion = 0;
+        let currentQ = 0;
         let score = 0;
 
         function startQuiz() {
-            currentQuestion = 0;
+            currentQ = 0;
             score = 0;
-            renderQuestion();
+            renderCurrentQuestion();
         }
 
-        function renderQuestion() {
-            const q = questions[currentQuestion];
-            let html = `
-                <div class="mb-8">
-                    <div class="text-sm text-cyan-400 mb-2">Question ${currentQuestion + 1} / ${questions.length}</div>
-                    <h3 class="text-2xl font-semibold mb-6">${q.q}</h3>
-                    
-                    <div class="space-y-3">
-                        ${q.a.map((option, i) => `
-                            <button onclick="answer(${i})" 
-                                    class="quiz-option w-full text-left px-6 py-4 bg-zinc-800 hover:bg-zinc-700 border border-zinc-700 rounded-2xl text-lg">
-                                ${option}
+        function renderCurrentQuestion() {
+            const q = quizQuestions[currentQ];
+            const html = `
+                <div>
+                    <div class="text-cyan-400 mb-2">Question ${currentQ + 1} / ${quizQuestions.length}</div>
+                    <h3 class="text-2xl font-semibold mb-8">${q.q}</h3>
+                    <div class="space-y-4">
+                        ${q.a.map((ans, i) => `
+                            <button onclick="selectAnswer(${i})" 
+                                    class="w-full text-left px-6 py-5 bg-zinc-800 hover:bg-zinc-700 border border-zinc-700 rounded-2xl text-lg transition">
+                                ${ans}
                             </button>
                         `).join('')}
                     </div>
                 </div>
             `;
-            document.getElementById("quiz-container").innerHTML = html;
-            document.getElementById("score").textContent = `${score} / ${questions.length}`;
+            document.getElementById('quiz-content').innerHTML = html;
+            document.getElementById('score-display').textContent = `${score} / ${quizQuestions.length}`;
         }
 
-        window.answer = function(selected) {
-            const q = questions[currentQuestion];
-            if (selected === q.correct) {
-                score++;
-            }
-
-            currentQuestion++;
-
-            if (currentQuestion < questions.length) {
-                renderQuestion();
+        window.selectAnswer = function(choice) {
+            if (choice === quizQuestions[currentQ].c) score++;
+            currentQ++;
+            if (currentQ < quizQuestions.length) {
+                renderCurrentQuestion();
             } else {
-                // Final screen
-                document.getElementById("quiz-container").innerHTML = `
-                    <div class="text-center py-12">
-                        <h2 class="text-5xl font-bold mb-4">Quiz Complete!</h2>
-                        <p class="text-6xl font-mono mb-8 text-cyan-400">${score} / ${questions.length}</p>
-                        <p class="text-xl mb-8">
-                            ${score >= 8 ? "Excellent! You're ready for the test 🔥" : 
-                              score >= 6 ? "Good job! Review the weaker areas." : 
-                              "Keep practicing with the cheat sheet!"}
-                        </p>
-                        <button onclick="startQuiz()" 
-                                class="px-10 py-4 bg-white text-black rounded-3xl font-semibold text-lg">
-                            Try Again
-                        </button>
-                    </div>
-                `;
-                document.getElementById("score").textContent = `${score} / ${questions.length}`;
+                document.getElementById('quiz-content').innerHTML = `
+                    <div class="text-center py-16">
+                        <h2 class="text-5xl font-bold mb-6">Quiz Finished!</h2>
+                        <p class="text-6xl font-mono text-cyan-400 mb-6">${score} / ${quizQuestions.length}</p>
+                        <p class="text-xl">${score >= 8 ? "Excellent work!" : "Good effort! Review the cheat sheet."}</p>
+                    </div>`;
             }
         };
 
-        // Start quiz automatically on load
+        // Initialize
         window.onload = () => {
-            startQuiz();
+            showSection('cheatsheet');
         };
     </script>
 </body>
